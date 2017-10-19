@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">TestChat</string>
+    <string name="button_go">GO</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+        <string name="menu_title_chat">Chat</string>
+
+    <string name="action_new_message">Chat</string>
+    <string name="new_message_activity">NewMessageActivity</string>
+
+</resources>
