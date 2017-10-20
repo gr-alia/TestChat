@@ -13,16 +13,25 @@ import android.view.MenuItem;
 import com.alia.testchat.R;
 import com.alia.testchat.ui.adapter.ChatFragmentPagerAdapter;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ChatActivity extends AppCompatActivity {
-    private Toolbar mToolbar;
-    private TabLayout mTabLayout;
-    private ViewPager mViewPager;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+
+    @BindView(R.id.sliding_tabs)
+    TabLayout mTabLayout;
+
+    @BindView(R.id.viewpager)
+    ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
+
         setSupportActionBar(mToolbar);
         setTitle(R.string.menu_title_chat);
         ActionBar appBar = getSupportActionBar();
@@ -30,11 +39,9 @@ public class ChatActivity extends AppCompatActivity {
             appBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        mViewPager = (ViewPager) findViewById(R.id.viewpager);
         ChatFragmentPagerAdapter pagerAdapter = new ChatFragmentPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(pagerAdapter);
 
-        mTabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         mTabLayout.setupWithViewPager(mViewPager);
 
     }

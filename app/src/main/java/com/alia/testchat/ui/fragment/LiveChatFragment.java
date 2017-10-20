@@ -18,7 +18,6 @@ public class LiveChatFragment extends Fragment {
     }
     public static LiveChatFragment newInstance(int position) {
         LiveChatFragment fragment = new LiveChatFragment();
-
         return fragment;
     }
     @Override
