@@ -12,9 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <meta-data android:name="android.security.net.config"
-                   android:resource="@xml/network_security_config" />
+        <meta-data
+            android:name="android.security.net.config"
+            android:resource="@xml/network_security_config"/>
 
         <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
@@ -25,9 +25,12 @@
         </activity>
         <activity
             android:name=".ui.activity.ChatActivity"
-            android:parentActivityName="com.alia.testchat.ui.activity.MainActivity">
+            android:parentActivityName=".ui.activity.MainActivity">
         </activity>
         <activity android:name=".ui.activity.NewMessageActivity">
+        </activity>
+        <activity android:name=".ui.activity.ConversationActivity"
+                  android:parentActivityName=".ui.activity.ChatActivity">
         </activity>
     </application>
 

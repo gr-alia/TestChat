@@ -18,6 +18,7 @@ import com.alia.testchat.model.content.Channel;
 import com.alia.testchat.model.response.ChannelsResponse;
 import com.alia.testchat.network.ChatAPI;
 import com.alia.testchat.network.RetrofitService;
+import com.alia.testchat.ui.activity.ConversationActivity;
 import com.alia.testchat.ui.adapter.ChannelAdapter;
 
 
@@ -29,7 +30,7 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class ChatFragment extends Fragment {
+public class ChatFragment extends Fragment implements ChannelAdapter.OnItemClickListener{
     private static final String TAG = "ChatFragment";
     private static final String ARG_POSITION = "position";
 
@@ -72,7 +73,7 @@ public class ChatFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_chat, container, false);
         ButterKnife.bind(this, v);
 
-        mAdapter = new ChannelAdapter(getContext());
+        mAdapter = new ChannelAdapter(getContext(), this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mAdapter);
 
@@ -104,4 +105,8 @@ public class ChatFragment extends Fragment {
         mEmptyView.setVisibility(View.GONE);
     }
 
+    @Override
+    public void onItemClick(@NonNull View view, @NonNull Channel channel) {
+        ConversationActivity.createIntent(getActivity(), channel);
+    }
 }

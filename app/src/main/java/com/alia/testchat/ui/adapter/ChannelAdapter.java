@@ -30,9 +30,18 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ChannelH
     private Context mContext;
     private List<Channel> mChannels;
 
-    public ChannelAdapter(Context context) {
+    private final OnItemClickListener mOnItemClickListener;
+
+    public interface OnItemClickListener {
+
+        void onItemClick(@NonNull View view, @NonNull Channel channel);
+
+    }
+
+    public ChannelAdapter(Context context, @NonNull OnItemClickListener onItemClickListener) {
         mContext = context;
         mChannels = new ArrayList<>();
+        mOnItemClickListener = onItemClickListener;
     }
 
     @Override
@@ -48,6 +57,9 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ChannelH
         Channel channel = mChannels.get(position);
         Log.i(TAG, "onBindViewHolder");
         holder.bind(channel);
+
+        holder.itemView.setOnClickListener(mInternalListener);
+        holder.itemView.setTag(channel);
     }
 
     @Override
@@ -62,6 +74,14 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ChannelH
         notifyDataSetChanged();
     }
 
+
+    private final View.OnClickListener mInternalListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Channel channel = (Channel) view.getTag();
+            mOnItemClickListener.onItemClick(view, channel);
+        }
+    };
     class ChannelHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.sender_photo)
         CircleImageView circleImageView;

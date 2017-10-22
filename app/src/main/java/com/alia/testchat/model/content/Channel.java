@@ -1,21 +1,27 @@
 
 package com.alia.testchat.model.content;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Channel {
+public class Channel{
 
     @SerializedName("last_message")
     @Expose
     private LastMessage lastMessage;
+
     @SerializedName("users")
     @Expose
     private List<User> users = null;
+
     @SerializedName("unread_messages_count")
     @Expose
     private Integer unreadMessagesCount;
+
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -51,5 +57,6 @@ public class Channel {
     public void setId(Integer id) {
         this.id = id;
     }
+
 
 }

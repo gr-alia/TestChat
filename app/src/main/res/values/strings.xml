@@ -3,10 +3,14 @@
     <string name="button_go">GO</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-        <string name="menu_title_chat">Kurse 2</string>
+    <string name="menu_title_chat">Kurse 2</string>
 
-    <string name="action_new_message">Chat</string>
+    <string name="action_new_message">New Message</string>
+    <string name="action_block">Block</string>
+
+
     <string name="new_message_activity">NewMessageActivity</string>
+    <string name="conversation_activity">ConversationActivity</string>
     <string name="live_chat">LiveChatFragment</string>
 
     <string name="empty_messages">No messages here...</string>
