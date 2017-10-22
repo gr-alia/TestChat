@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TestChat</string>
+    <string name="app_name">Test Chat</string>
     <string name="button_go">GO</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -9,4 +9,5 @@
     <string name="new_message_activity">NewMessageActivity</string>
     <string name="live_chat">LiveChatFragment</string>
 
+    <string name="empty_messages">No messages here...</string>
 </resources>

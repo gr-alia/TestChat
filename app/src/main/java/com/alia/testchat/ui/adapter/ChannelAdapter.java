@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.alia.testchat.R;
 import com.alia.testchat.model.content.Channel;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,16 +45,16 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ChannelH
 
     @Override
     public void onBindViewHolder(ChannelHolder holder, int position) {
-        //Channel channel = mChannels.get(position);
+        Channel channel = mChannels.get(position);
         Log.i(TAG, "onBindViewHolder");
-        //holder.bind(channel);
+        holder.bind(channel);
     }
 
     @Override
     public int getItemCount() {
         Log.i(TAG, "getItemCount");
-        //mChannels.size();
-        return 5;
+
+        return mChannels.size();
     }
 
     public void changeDataSet(List<Channel> channels){
@@ -85,7 +86,15 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ChannelH
 
         public void bind(@NonNull Channel channel) {
             nameView.setText(channel.getLastMessage().getSender().getFullName());
-            msgTextView.setText(channel.getLastMessage().getCreateDate());
+            msgTextView.setText(channel.getLastMessage().getText());
+
+            Picasso.with(mContext)
+                    .load(channel.getLastMessage().getSender().getPhoto())
+                    .placeholder(R.drawable.ic_new_message)
+                    .into(circleImageView);
+
+            msgTimeView.setText(channel.getLastMessage().getCreateTime());
+            unreadCountView.setText(String.valueOf(channel.getUnreadMessagesCount()));
         }
     }
 }

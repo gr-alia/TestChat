@@ -1,6 +1,7 @@
 
 package com.alia.testchat.model.response;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.alia.testchat.model.content.Channel;
@@ -11,9 +12,12 @@ public class ChannelsResponse {
 
     @SerializedName("channels")
     @Expose
-    private List<Channel> channels = null;
+    private List<Channel> channels;
 
     public List<Channel> getChannels() {
+        if (channels == null){
+            return new ArrayList<>();
+        }
         return channels;
     }
 

@@ -12,7 +12,7 @@
         <item name="colorControlNormal">@color/white</item>
         <item name="titleTextColor">@color/white</item>
     </style>
-    <style name="Header">
+    <style name="TextStyle">
         <item name="android:textSize">24sp</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">normal</item>

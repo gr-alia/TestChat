@@ -4,6 +4,10 @@ package com.alia.testchat.model.content;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class LastMessage {
 
     @SerializedName("sender")
@@ -37,6 +41,17 @@ public class LastMessage {
 
     public String getCreateDate() {
         return createDate;
+    }
+
+    public String getCreateTime() {
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(getCreateDate());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String formattedTime = new SimpleDateFormat("HH:mm").format(date);
+        return formattedTime;
     }
 
     public void setCreateDate(String createDate) {
