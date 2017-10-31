@@ -9,14 +9,19 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.alia.testchat.R;
 import com.alia.testchat.ui.adapter.ChatFragmentPagerAdapter;
+import com.alia.testchat.ui.fragment.ChatFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ChatActivity extends AppCompatActivity {
+public class ChatActivity extends AppCompatActivity implements ChatFragment.OnTabTittleListener {
+    private ChatFragmentPagerAdapter mPagerAdapter;
+
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
@@ -39,10 +44,15 @@ public class ChatActivity extends AppCompatActivity {
             appBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        ChatFragmentPagerAdapter pagerAdapter = new ChatFragmentPagerAdapter(getSupportFragmentManager());
-        mViewPager.setAdapter(pagerAdapter);
+        mPagerAdapter = new ChatFragmentPagerAdapter(getSupportFragmentManager(), this);
+        mViewPager.setAdapter(mPagerAdapter);
 
         mTabLayout.setupWithViewPager(mViewPager);
+
+        for (int i = 0; i < mPagerAdapter.getCount(); i++) {
+            TabLayout.Tab tab = mTabLayout.getTabAt(i);
+            tab.setCustomView(mPagerAdapter.getTabView(i));
+        }
 
     }
 
@@ -63,5 +73,17 @@ public class ChatActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    @Override
+    public void onDataUpdate(int data) {
+        TabLayout.Tab tab = mTabLayout.getTabAt(0);
+        View v = tab.getCustomView();
+        TextView unreadView = (TextView) v.findViewById(R.id.msg_count);
+        if (data != 0) {
+            unreadView.setVisibility(View.VISIBLE);
+            unreadView.setText(String.valueOf(data));
+        }
+        tab.setCustomView(v);
     }
 }

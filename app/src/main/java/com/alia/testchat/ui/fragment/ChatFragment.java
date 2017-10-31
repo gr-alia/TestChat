@@ -1,5 +1,6 @@
 package com.alia.testchat.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -30,13 +31,14 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class ChatFragment extends Fragment implements ChannelAdapter.OnItemClickListener{
+public class ChatFragment extends Fragment implements ChannelAdapter.OnItemClickListener {
     private static final String TAG = "ChatFragment";
     private static final String ARG_POSITION = "position";
 
     private int mPosition;
 
     private ChannelAdapter mAdapter;
+    private OnTabTittleListener mCallback;
 
     @BindView(R.id.channels_recycler)
     RecyclerView mRecyclerView;
@@ -46,6 +48,10 @@ public class ChatFragment extends Fragment implements ChannelAdapter.OnItemClick
 
     @Nullable
     private Subscription mChannelsSubscription;
+
+    public interface OnTabTittleListener {
+        void onDataUpdate(int data);
+    }
 
     public ChatFragment() {
 
@@ -83,9 +89,10 @@ public class ChatFragment extends Fragment implements ChannelAdapter.OnItemClick
                         .map(ChannelsResponse::getChannels)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(this::showMessages, this::showError);
+                        .subscribe(this::handleData, this::showError);
         return v;
     }
+
     @Override
     public void onPause() {
         if (mChannelsSubscription != null) {
@@ -93,13 +100,32 @@ public class ChatFragment extends Fragment implements ChannelAdapter.OnItemClick
         }
         super.onPause();
     }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mCallback = (OnTabTittleListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnTabTittleListener");
+        }
+    }
+
     private void showError(Throwable e) {
         mRecyclerView.setVisibility(View.GONE);
         mEmptyView.setVisibility(View.VISIBLE);
         Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
     }
 
-    private void showMessages(@NonNull List<Channel> channels) {
+    private void handleData(@NonNull List<Channel> channels) {
+        //update number of unread messages
+        int unreadMessages = 0;
+        for (int i = 0; i < channels.size(); i++) {
+            unreadMessages += channels.get(i).getUnreadMessagesCount();
+        }
+        mCallback.onDataUpdate(unreadMessages);
+        //show messages in every channel
         mAdapter.changeDataSet(channels);
         mRecyclerView.setVisibility(View.VISIBLE);
         mEmptyView.setVisibility(View.GONE);
